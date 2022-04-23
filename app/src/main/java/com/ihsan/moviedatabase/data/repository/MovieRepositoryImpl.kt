@@ -34,4 +34,23 @@ class MovieRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun getMovieByGenre(genreId: Int): Flow<Resource<MovieList>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val moviesByGenre = api.getMovieByGenre(withGenres = genreId.toString())
+                emit(Resource.Success(
+                    data = moviesByGenre.toMovieList()
+                ))
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
 }

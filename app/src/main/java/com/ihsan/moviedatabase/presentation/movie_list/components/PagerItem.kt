@@ -21,6 +21,7 @@ import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.ihsan.moviedatabase.data.remote.MovieApi
 import com.ihsan.moviedatabase.data.remote.dto.Movie
+import com.ihsan.moviedatabase.util.Constants.IMAGE_URL
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -28,14 +29,14 @@ fun PagerItem(
     movie: Movie,
 ) {
     val gradient = Brush.verticalGradient(
-        colors = listOf(Color.Transparent, Color.Black),
+        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
         tileMode = TileMode.Clamp
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
-                .data("${MovieApi.IMAGE_URL}${movie.backdropPath}")
+                .data("${IMAGE_URL}${movie.backdropPath}")
                 .crossfade(true)
                 .build(),
             contentScale = ContentScale.FillWidth,

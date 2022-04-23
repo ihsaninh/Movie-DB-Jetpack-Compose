@@ -34,4 +34,16 @@ val Typography = Typography(
         fontSize = 24.sp,
         letterSpacing = 0.sp
     ),
+    button = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Bold,
+        fontSize = 11.sp,
+        letterSpacing = 0.25.sp
+    ),
+    body2 = TextStyle(
+        fontFamily = fonts,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        letterSpacing = 0.25.sp
+    ),
 )

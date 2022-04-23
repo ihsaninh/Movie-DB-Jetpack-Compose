@@ -1,6 +1,7 @@
 package com.ihsan.moviedatabase.di
 
 import com.ihsan.moviedatabase.data.remote.MovieApi
+import com.ihsan.moviedatabase.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object AppModule {
     @Singleton
     fun provideMovieApi(): MovieApi {
         return Retrofit.Builder()
-            .baseUrl(MovieApi.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()

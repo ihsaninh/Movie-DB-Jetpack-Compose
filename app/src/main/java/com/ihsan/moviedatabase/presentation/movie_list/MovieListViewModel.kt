@@ -20,27 +20,52 @@ class MovieListViewModel @Inject constructor(
 
     init {
         getPopularMovies()
+        getMovieByGenre(28)
     }
 
     private fun getPopularMovies() {
-        viewModelScope.launch { repository.getPopularMovie()
-            .collect { result ->
-                when (result) {
-                    is Resource.Success -> {
-                        result.data?.results.let {
+        viewModelScope.launch {
+            repository.getPopularMovie()
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.results.let {
+                                state = state.copy(
+                                    popularMovies = it?.take(5)
+                                )
+                            }
+                        }
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> {
                             state = state.copy(
-                                popularMovies = it?.take(5)
+                                isLoading = result.isLoading
                             )
                         }
                     }
-                    is Resource.Error -> Unit
-                    is Resource.Loading -> {
-                        state = state.copy(
-                            isLoading = result.isLoading
-                        )
+                }
+        }
+    }
+
+    fun getMovieByGenre(genreId: Int) {
+        viewModelScope.launch {
+            repository.getMovieByGenre(genreId = genreId)
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.results.let {
+                                state = state.copy(
+                                    moviesByGenre = it
+                                )
+                            }
+                        }
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> {
+                            state = state.copy(
+                                isLoading = result.isLoading
+                            )
+                        }
                     }
                 }
-            }
         }
     }
 }

@@ -107,4 +107,7 @@ dependencies {
 
     // SystemUI
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
+
+    // Others
+    implementation 'io.github.a914-gowtham:compose-ratingbar:1.2.3'
 }

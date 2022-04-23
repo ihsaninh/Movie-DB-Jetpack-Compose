@@ -1,6 +1,7 @@
 package com.ihsan.moviedatabase.data.remote
 
 import com.ihsan.moviedatabase.data.remote.dto.MovieListDto
+import com.ihsan.moviedatabase.util.Constants.API_KEY
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,10 +12,10 @@ interface MovieApi {
         @Query("api_key") apiKey: String = API_KEY
     ): MovieListDto
 
+    @GET("discover/movie?language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1")
+    suspend fun getMovieByGenre(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("with_genres") withGenres: String
+    ): MovieListDto
 
-    companion object {
-        const val API_KEY = "52c752b31bfe181e2fa03ee3fb20eecd"
-        const val BASE_URL = "https://api.themoviedb.org/3/"
-        const val IMAGE_URL = "https://image.tmdb.org/t/p/w500"
-    }
 }
