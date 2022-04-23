@@ -8,14 +8,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun TopAppbar() {
+fun TopAppbar(
+    useSearch: Boolean = true
+) {
     TopAppBar(
         backgroundColor = MaterialTheme.colors.primary,
         title = {
             Text(text = "Movie Database")
         },
         actions = {
-            IconButton(onClick = { }) {
+            if (useSearch) IconButton(onClick = { }) {
                 Icon(
                     Icons.Filled.Search,
                     contentDescription = null,

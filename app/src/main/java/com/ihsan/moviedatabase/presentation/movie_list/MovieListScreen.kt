@@ -1,6 +1,9 @@
 package com.ihsan.moviedatabase.presentation.movie_list
 
+import android.util.Log
 import android.widget.RatingBar
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.*
@@ -18,6 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import com.google.accompanist.pager.*
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
@@ -27,6 +32,7 @@ import com.ihsan.moviedatabase.data.remote.dto.Movie
 import com.ihsan.moviedatabase.domain.model.MovieGenre
 import com.ihsan.moviedatabase.domain.model.MovieList
 import com.ihsan.moviedatabase.domain.model.movieGenres
+import com.ihsan.moviedatabase.presentation.destinations.MovieDetailScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -96,11 +102,23 @@ fun MovieListScreen(
                     )
                 }
             }
-            LazyRow {
-                state.moviesByGenre?.let { movies ->
-                    items(movies.size) {
-                        val movie = movies[it]
-                        MovieCard(movie = movie)
+            if (state.isLoading) {
+                Column(
+                    modifier = Modifier
+                        .height(250.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(color = Color.White)
+                }
+            } else {
+                LazyRow {
+                    state.moviesByGenre?.let { movies ->
+                        items(movies.size) {
+                            val movie = movies[it]
+                            MovieCard(movie = movie, onClick = { navigator.navigate(MovieDetailScreenDestination) })
+                        }
                     }
                 }
             }
@@ -112,6 +130,7 @@ fun MovieListScreen(
 @Composable
 fun MovieCard(
     movie: Movie,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -119,10 +138,10 @@ fun MovieCard(
             .height(250.dp)
             .width(120.dp),
         elevation = 0.dp,
-        onClick = {},
+        onClick = onClick,
         backgroundColor = MaterialTheme.colors.primary
     ) {
-        Column() {
+        Column {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data("${IMAGE_URL}${movie.posterPath}")
@@ -141,11 +160,11 @@ fun MovieCard(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.padding(top = 4.dp))
-            Row() {
+            Row {
                 Text(
                     text = movie.voteAverage.toString(),
                     style = MaterialTheme.typography.body2,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.padding(start = 4.dp))
                 RatingBar(
