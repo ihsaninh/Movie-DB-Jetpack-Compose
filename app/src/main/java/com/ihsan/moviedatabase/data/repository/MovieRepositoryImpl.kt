@@ -21,9 +21,11 @@ class MovieRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val popularMovies = api.getPopularMovie()
-                emit(Resource.Success(
-                    data = popularMovies.toMovieList()
-                ))
+                emit(
+                    Resource.Success(
+                        data = popularMovies.toMovieList()
+                    )
+                )
                 emit(Resource.Loading(false))
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -40,9 +42,53 @@ class MovieRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
             try {
                 val moviesByGenre = api.getMovieByGenre(withGenres = genreId.toString())
-                emit(Resource.Success(
-                    data = moviesByGenre.toMovieList()
-                ))
+                emit(
+                    Resource.Success(
+                        data = moviesByGenre.toMovieList()
+                    )
+                )
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
+
+    override suspend fun getTopRatedMovie(): Flow<Resource<MovieList>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val topRatedMovies = api.getTopRatedMovie()
+                emit(
+                    Resource.Success(
+                        data = topRatedMovies.toMovieList()
+                    )
+                )
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
+
+    override suspend fun getUpcomingMovie(): Flow<Resource<MovieList>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val upcomingMovies = api.getUpcomingMovie()
+                emit(
+                    Resource.Success(
+                        data = upcomingMovies.toMovieList()
+                    )
+                )
                 emit(Resource.Loading(false))
             } catch (e: IOException) {
                 e.printStackTrace()

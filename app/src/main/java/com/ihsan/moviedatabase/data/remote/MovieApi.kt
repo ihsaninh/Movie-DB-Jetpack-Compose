@@ -18,4 +18,14 @@ interface MovieApi {
         @Query("with_genres") withGenres: String
     ): MovieListDto
 
+    @GET("movie/top_rated?language=en-EN&page=1")
+    suspend fun getTopRatedMovie(
+        @Query("api_key") apiKey: String = API_KEY,
+    ): MovieListDto
+
+    @GET("movie/upcoming?language=en-EN&page=1")
+    suspend fun getUpcomingMovie(
+        @Query("api_key") apiKey: String = API_KEY,
+    ): MovieListDto
+
 }

@@ -1,4 +1,4 @@
-package com.ihsan.moviedatabase.presentation.movie_detail
+package com.ihsan.moviedatabase.presentation.layouts.movie_detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -7,7 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.ihsan.moviedatabase.presentation.movie_list.components.TopAppbar
+import com.ihsan.moviedatabase.presentation.layouts.movie_list.components.TopAppbar
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable

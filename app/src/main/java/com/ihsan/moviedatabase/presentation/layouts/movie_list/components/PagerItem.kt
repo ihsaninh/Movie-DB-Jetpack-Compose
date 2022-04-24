@@ -1,4 +1,4 @@
-package com.ihsan.moviedatabase.presentation.movie_list.components
+package com.ihsan.moviedatabase.presentation.layouts.movie_list.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

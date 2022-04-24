@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.ihsan.moviedatabase.presentation.NavGraphs
+import com.ihsan.moviedatabase.presentation.layouts.NavGraphs
 import com.ihsan.moviedatabase.ui.theme.MovieDatabaseTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.animations.defaults.RootNavGraphDefaultAnimations

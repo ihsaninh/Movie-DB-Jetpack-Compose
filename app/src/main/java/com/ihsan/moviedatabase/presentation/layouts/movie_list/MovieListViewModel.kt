@@ -1,4 +1,4 @@
-package com.ihsan.moviedatabase.presentation.movie_list
+package com.ihsan.moviedatabase.presentation.layouts.movie_list
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +21,8 @@ class MovieListViewModel @Inject constructor(
     init {
         getPopularMovies()
         getMovieByGenre(28)
+        getTopRatedMovies()
+        getTopUpcomingMovies()
     }
 
     private fun getPopularMovies() {
@@ -39,6 +41,52 @@ class MovieListViewModel @Inject constructor(
                         is Resource.Loading -> {
                             state = state.copy(
                                 isLoading = result.isLoading
+                            )
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getTopRatedMovies() {
+        viewModelScope.launch {
+            repository.getTopRatedMovie()
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.results.let {
+                                state = state.copy(
+                                    topRatedMovies = it
+                                )
+                            }
+                        }
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> {
+                            state = state.copy(
+                                loadingTopRated = result.isLoading
+                            )
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun getTopUpcomingMovies() {
+        viewModelScope.launch {
+            repository.getUpcomingMovie()
+                .collect { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            result.data?.results.let {
+                                state = state.copy(
+                                    upcomingMovies = it
+                                )
+                            }
+                        }
+                        is Resource.Error -> Unit
+                        is Resource.Loading -> {
+                            state = state.copy(
+                                loadingUpcoming = result.isLoading
                             )
                         }
                     }
