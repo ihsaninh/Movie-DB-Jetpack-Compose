@@ -26,19 +26,23 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             val navHostEngine = rememberAnimatedNavHostEngine(
                 rootDefaultAnimations = RootNavGraphDefaultAnimations(
-                    enterTransition = { slideInHorizontally(initialOffsetX = { 300 }) },
-                    exitTransition = { slideOutHorizontally(targetOffsetX = { -300 }) },
-                    popEnterTransition = { slideInHorizontally(initialOffsetX = { -300 }) },
-                    popExitTransition = { slideOutHorizontally(targetOffsetX = { 300 }) }
+                    enterTransition = { slideInHorizontally(initialOffsetX = { 500 }) },
+                    exitTransition = { slideOutHorizontally(targetOffsetX = { -500 }) },
+                    popEnterTransition = { slideInHorizontally(initialOffsetX = { -500 }) },
+                    popExitTransition = { slideOutHorizontally(targetOffsetX = { 500 }) }
                 )
             )
+
             val systemUiController = rememberSystemUiController()
+            val statusBarColor = Color(0xFF1D1D27).copy(alpha = 0.99f)
             SideEffect {
-                systemUiController.setSystemBarsColor(Color.Black, darkIcons = false)
+                systemUiController.setSystemBarsColor(statusBarColor, darkIcons = false)
             }
+
             MovieDatabaseTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

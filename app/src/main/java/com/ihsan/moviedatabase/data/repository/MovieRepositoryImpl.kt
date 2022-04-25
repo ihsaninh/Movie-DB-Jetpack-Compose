@@ -1,7 +1,9 @@
 package com.ihsan.moviedatabase.data.repository
 
+import com.ihsan.moviedatabase.data.mapper.toMovieDetail
 import com.ihsan.moviedatabase.data.mapper.toMovieList
 import com.ihsan.moviedatabase.data.remote.MovieApi
+import com.ihsan.moviedatabase.domain.model.MovieDetail
 import com.ihsan.moviedatabase.domain.model.MovieList
 import com.ihsan.moviedatabase.domain.repository.MovieRepository
 import com.ihsan.moviedatabase.util.Resource
@@ -87,6 +89,27 @@ class MovieRepositoryImpl @Inject constructor(
                 emit(
                     Resource.Success(
                         data = upcomingMovies.toMovieList()
+                    )
+                )
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
+
+    override suspend fun getMovieDetail(movieId: String): Flow<Resource<MovieDetail>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val movieDetail = api.getMovieDetail(movieId = movieId)
+                emit(
+                    Resource.Success(
+                        data = movieDetail.toMovieDetail()
                     )
                 )
                 emit(Resource.Loading(false))

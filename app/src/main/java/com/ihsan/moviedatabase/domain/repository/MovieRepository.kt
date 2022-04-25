@@ -1,5 +1,6 @@
 package com.ihsan.moviedatabase.domain.repository
 
+import com.ihsan.moviedatabase.domain.model.MovieDetail
 import com.ihsan.moviedatabase.domain.model.MovieList
 import com.ihsan.moviedatabase.util.Resource
 import kotlinx.coroutines.flow.Flow
@@ -9,4 +10,5 @@ interface MovieRepository {
     suspend fun getMovieByGenre(genreId: Int): Flow<Resource<MovieList>>
     suspend fun getTopRatedMovie(): Flow<Resource<MovieList>>
     suspend fun getUpcomingMovie(): Flow<Resource<MovieList>>
+    suspend fun getMovieDetail(movieId: String): Flow<Resource<MovieDetail>>
 }

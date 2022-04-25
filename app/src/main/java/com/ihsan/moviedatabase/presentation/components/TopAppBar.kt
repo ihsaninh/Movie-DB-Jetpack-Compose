@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopAppbar(
@@ -13,6 +14,7 @@ fun TopAppbar(
 ) {
     TopAppBar(
         backgroundColor = MaterialTheme.colors.primary,
+        elevation = 0.dp,
         title = {
             Text(text = "Movie Database")
         },

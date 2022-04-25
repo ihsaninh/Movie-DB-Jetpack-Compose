@@ -1,8 +1,10 @@
 package com.ihsan.moviedatabase.presentation.layouts.movie_list
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
@@ -15,6 +17,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ihsan.moviedatabase.domain.model.movieGenres
 import com.ihsan.moviedatabase.presentation.components.CarouselSlider
+import com.ihsan.moviedatabase.presentation.components.MovieCard
 import com.ihsan.moviedatabase.presentation.components.MovieListCard
 import com.ihsan.moviedatabase.presentation.components.MovieListHeader
 import com.ihsan.moviedatabase.presentation.layouts.destinations.MovieDetailScreenDestination
@@ -36,13 +39,12 @@ fun MovieListScreen(
     val state = viewModel.state
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
-    var tabIndex by remember { mutableStateOf(0) }
 
     LaunchedEffect(Unit) {
         while (true) {
             yield()
             delay(2000)
-            pagerState.scrollToPage(
+            pagerState.animateScrollToPage(
                 page = (pagerState.currentPage + 1) % (pagerState.pageCount),
             )
         }
@@ -53,11 +55,10 @@ fun MovieListScreen(
         topBar = {
             TopAppbar()
         }
-    ) { paddingValues ->
+    ) {
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .verticalScroll(scrollState)
         ) {
             state.popularMovies?.let { movies ->
@@ -67,20 +68,20 @@ fun MovieListScreen(
                 )
             }
             ScrollableTabRow(
-                selectedTabIndex = tabIndex,
+                selectedTabIndex = viewModel.state.activeTabIndex,
                 edgePadding = 0.dp,
                 divider = {
                     TabRowDefaults.Divider(
                         thickness = 0.dp,
                         color = Color.Transparent
                     )
-                }
+                },
             ) {
                 movieGenres.forEachIndexed { index, genre ->
                     Tab(
-                        selected = tabIndex == index,
+                        selected = viewModel.state.activeTabIndex == index,
                         onClick = {
-                            tabIndex = index;
+                            viewModel.state.activeTabIndex = index;
                             viewModel.getMovieByGenre(movieGenres[index].id)
                         },
                         text = {
@@ -93,12 +94,28 @@ fun MovieListScreen(
                 }
             }
             MovieListCard(
-                movieState = state.moviesByGenre,
                 loadingState = state.isLoading,
-                onClick = {
-                    navigator.navigate(
-                        MovieDetailScreenDestination
-                    )
+                height = 274.dp,
+                content = {
+                    LazyRow(
+                        contentPadding = PaddingValues(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        state.moviesByGenre?.let { movies ->
+                            items(movies.size) {
+                                val movie = movies[it]
+                                val movieId = movie.id.toString()
+                                MovieCard(
+                                    movie = movie,
+                                    onClick = {
+                                        navigator.navigate(
+                                            MovieDetailScreenDestination(movieId = movieId)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             )
             MovieListHeader(
@@ -107,12 +124,27 @@ fun MovieListScreen(
                 onClick = {}
             )
             MovieListCard(
-                movieState = state.topRatedMovies,
                 loadingState = state.loadingTopRated,
-                onClick = {
-                    navigator.navigate(
-                        MovieDetailScreenDestination
-                    )
+                content = {
+                    LazyRow(
+                        contentPadding = PaddingValues(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        state.topRatedMovies?.let { movies ->
+                            items(movies.size) {
+                                val movie = movies[it]
+                                val movieId = movie.id.toString()
+                                MovieCard(
+                                    movie = movie,
+                                    onClick = {
+                                        navigator.navigate(
+                                            MovieDetailScreenDestination(movieId = movieId)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             )
             MovieListHeader(
@@ -121,12 +153,27 @@ fun MovieListScreen(
                 onClick = {}
             )
             MovieListCard(
-                movieState = state.upcomingMovies,
                 loadingState = state.loadingUpcoming,
-                onClick = {
-                    navigator.navigate(
-                        MovieDetailScreenDestination
-                    )
+                content = {
+                    LazyRow(
+                        contentPadding = PaddingValues(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        state.upcomingMovies?.let { movies ->
+                            items(movies.size) {
+                                val movie = movies[it]
+                                val movieId = movie.id.toString()
+                                MovieCard(
+                                    movie = movie,
+                                    onClick = {
+                                        navigator.navigate(
+                                            MovieDetailScreenDestination(movieId = movieId)
+                                        )
+                                    }
+                                )
+                            }
+                        }
+                    }
                 }
             )
         }

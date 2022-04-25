@@ -13,4 +13,5 @@ data class MovieListState(
     val loadingUpcoming: Boolean = false,
 
     val isRefreshing: Boolean = false,
+    var activeTabIndex : Int = 0,
 )
