@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 
 data class Poster(
     @SerializedName("aspect_ratio")
-    val aspectRatio: Double?,
+    val aspectRatio: Double,
     @SerializedName("file_path")
-    val filePath: String?,
+    val filePath: String,
     @SerializedName("height")
-    val height: Int?,
+    val height: Int,
     @SerializedName("iso_639_1")
-    val iso6391: String?,
+    val iso6391: String,
     @SerializedName("vote_average")
-    val voteAverage: Double?,
+    val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int?,
+    val voteCount: Int,
     @SerializedName("width")
-    val width: Int?
+    val width: Int
 )

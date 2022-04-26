@@ -1,4 +1,4 @@
-package com.ihsan.moviedatabase.presentation.layouts.movie_list.components
+package com.ihsan.moviedatabase.presentation.components
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons

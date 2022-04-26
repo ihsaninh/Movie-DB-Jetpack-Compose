@@ -1,5 +1,6 @@
 package com.ihsan.moviedatabase.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,9 @@ fun MovieListHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = title.uppercase())
-        Text(text = subTitle.uppercase())
+        Text(
+            modifier = Modifier.clickable(onClick = onClick),
+            text = subTitle.uppercase(),
+        )
     }
 }

@@ -18,7 +18,6 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail {
     return MovieDetail(
         adult = adult,
         backdropPath = backdropPath,
-        belongsToCollection = belongsToCollection,
         budget = budget,
         genres = genres,
         homepage = homepage,

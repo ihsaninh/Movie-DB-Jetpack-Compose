@@ -19,7 +19,6 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.ihsan.moviedatabase.data.remote.MovieApi
 import com.ihsan.moviedatabase.data.remote.dto.Movie
 import com.ihsan.moviedatabase.util.Constants.IMAGE_URL
 
@@ -29,7 +28,10 @@ fun PagerItem(
     movie: Movie,
 ) {
     val gradient = Brush.verticalGradient(
-        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
+        colors = listOf(
+            Color.Transparent,
+            MaterialTheme.colors.primary
+        ),
         tileMode = TileMode.Clamp
     )
 
@@ -49,13 +51,16 @@ fun PagerItem(
                 .background(gradient)
         )
         Text(
-            text = movie.title,
-            color = Color.White,
-            style = MaterialTheme.typography.h6,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .zIndex(100f)
-                .padding(bottom = 30.dp, start = 10.dp)
+                .padding(
+                    bottom = 30.dp,
+                    start = 10.dp
+                ),
+            text = movie.title,
+            color = Color.White,
+            style = MaterialTheme.typography.h6,
         )
     }
 }

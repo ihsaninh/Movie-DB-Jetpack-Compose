@@ -1,4 +1,4 @@
-package com.ihsan.moviedatabase.presentation.components
+package com.ihsan.moviedatabase.presentation.layouts.movie_list.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
@@ -13,7 +13,6 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.ihsan.moviedatabase.data.remote.dto.Movie
-import com.ihsan.moviedatabase.presentation.layouts.movie_list.components.PagerItem
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable

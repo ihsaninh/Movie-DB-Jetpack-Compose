@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Images(
     @SerializedName("backdrops")
-    val backdrops: List<Backdrop>?,
+    val backdrops: List<Backdrop>,
     @SerializedName("logos")
-    val logos: List<Logo>?,
+    val logos: List<Logo>,
     @SerializedName("posters")
-    val posters: List<Poster>?
+    val posters: List<Poster>
 )

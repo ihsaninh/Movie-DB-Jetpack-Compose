@@ -8,7 +8,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -16,12 +17,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ihsan.moviedatabase.domain.model.movieGenres
-import com.ihsan.moviedatabase.presentation.components.CarouselSlider
-import com.ihsan.moviedatabase.presentation.components.MovieCard
-import com.ihsan.moviedatabase.presentation.components.MovieListCard
-import com.ihsan.moviedatabase.presentation.components.MovieListHeader
+import com.ihsan.moviedatabase.presentation.components.*
 import com.ihsan.moviedatabase.presentation.layouts.destinations.MovieDetailScreenDestination
-import com.ihsan.moviedatabase.presentation.layouts.movie_list.components.TopAppbar
+import com.ihsan.moviedatabase.presentation.layouts.movie_list.components.CarouselSlider
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -43,7 +41,7 @@ fun MovieListScreen(
     LaunchedEffect(Unit) {
         while (true) {
             yield()
-            delay(2000)
+            delay(5000)
             pagerState.animateScrollToPage(
                 page = (pagerState.currentPage + 1) % (pagerState.pageCount),
             )
