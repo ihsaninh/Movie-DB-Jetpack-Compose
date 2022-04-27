@@ -96,7 +96,7 @@ fun MovieListScreen(
                 height = 274.dp,
                 content = {
                     LazyRow(
-                        contentPadding = PaddingValues(12.dp),
+                        contentPadding = PaddingValues(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         state.moviesByGenre?.let { movies ->
@@ -125,7 +125,7 @@ fun MovieListScreen(
                 loadingState = state.loadingTopRated,
                 content = {
                     LazyRow(
-                        contentPadding = PaddingValues(12.dp),
+                        contentPadding = PaddingValues(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         state.topRatedMovies?.let { movies ->
@@ -154,7 +154,7 @@ fun MovieListScreen(
                 loadingState = state.loadingUpcoming,
                 content = {
                     LazyRow(
-                        contentPadding = PaddingValues(12.dp),
+                        contentPadding = PaddingValues(16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         state.upcomingMovies?.let { movies ->

@@ -5,9 +5,9 @@ object Helper {
         val hours = seconds / 3600
         val minutes = seconds % 3600 / 60
         return if (hours > 0) {
-            String.format("%02d:%02d", hours, minutes)
+            String.format("%02dh %02dm", hours, minutes)
         } else {
-            String.format("%02d:%02d", minutes, seconds % 60)
+            String.format("%02dh %02dm", minutes, seconds % 60)
         }
     }
 

@@ -36,7 +36,7 @@ fun BackdropSlider(
         tileMode = TileMode.Clamp
     )
 
-    Box(modifier = Modifier.height(220.dp)) {
+    Box(modifier = Modifier.height(200.dp)) {
         HorizontalPager(
             count = state.size,
             state = pagerState,
