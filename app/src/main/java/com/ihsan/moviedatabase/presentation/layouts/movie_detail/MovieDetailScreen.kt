@@ -33,12 +33,21 @@ import coil.compose.AsyncImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ihsan.moviedatabase.R
+import com.ihsan.moviedatabase.data.remote.dto.Cast
+import com.ihsan.moviedatabase.data.remote.dto.Movie
 import com.ihsan.moviedatabase.domain.model.MovieDetail
+import com.ihsan.moviedatabase.presentation.components.MovieCard
+import com.ihsan.moviedatabase.presentation.components.MovieListCard
+import com.ihsan.moviedatabase.presentation.components.MovieListHeader
 import com.ihsan.moviedatabase.presentation.components.TopAppbar
+import com.ihsan.moviedatabase.presentation.layouts.destinations.MovieDetailScreenDestination
 import com.ihsan.moviedatabase.presentation.layouts.movie_detail.components.BackdropSlider
+import com.ihsan.moviedatabase.presentation.layouts.movie_detail.components.CastCard
+import com.ihsan.moviedatabase.presentation.layouts.movie_detail.components.MovieCastCard
 import com.ihsan.moviedatabase.util.Constants
 import com.ihsan.moviedatabase.util.Helper
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.yield
 
@@ -47,14 +56,22 @@ import kotlinx.coroutines.yield
 @Destination
 fun MovieDetailScreen(
     movieId: String,
+    navigator: DestinationsNavigator,
     viewModel: MovieDetailViewModel = hiltViewModel(),
 ) {
     val movie = viewModel.state.movie
+    val casts = viewModel.state.movieCast
+    val movieCastLoading = viewModel.state.isMovieCastLoading
+    val similarMovies = viewModel.state.similarMovies
+    val similarMovieLoading = viewModel.state.isSimilarMoviesLoading
     val pagerState = rememberPagerState()
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         viewModel.getMovieDetail(movieId)
+        viewModel.getSimilarMovie(movieId)
+        viewModel.getMovieCast(movieId)
+
         while (true) {
             yield()
             delay(5000)
@@ -82,20 +99,30 @@ fun MovieDetailScreen(
                     )
                 }
                 MovieDetailTitleInfo(movie = movie)
-                Divider(
-                    color = Color.White.copy(alpha = 0.12f)
-                )
+                Divider()
                 MovieDetailDescriptionInfo(movie = movie)
-                Divider(
-                    color = Color.White.copy(alpha = 0.12f)
-                )
+                Divider()
                 MovieDetailInfoStatus(movie = movie)
-                Divider(
-                    color = Color.White.copy(alpha = 0.12f)
+                Divider()
+                MovieCastList(
+                    casts = casts,
+                    isLoading = movieCastLoading
+                )
+                SimilarMovieList(
+                    movies = similarMovies,
+                    navigator = navigator,
+                    isLoading = similarMovieLoading
                 )
             }
         }
     }
+}
+
+@Composable
+fun Divider() {
+    Divider(
+        color = Color.White.copy(alpha = 0.12f)
+    )
 }
 
 @Composable
@@ -204,14 +231,16 @@ fun MovieDetailDescriptionInfo(
                 }
             }
             Text(
-                modifier = Modifier.padding(top = 4.dp),
                 text = movie.overview,
-                fontFamily = FontFamily(Font(R.font.roboto_regular)),
                 maxLines = 5,
                 lineHeight = 20.sp,
                 fontSize = 13.sp,
                 color = Color.White.copy(alpha = 0.70f),
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 4.dp),
+                fontFamily = FontFamily(
+                    Font(R.font.roboto_regular)
+                ),
             )
         }
     }
@@ -313,4 +342,83 @@ fun MovieDetailInfoStatus(
             )
         }
     }
+}
+
+@Composable
+fun MovieCastList(
+    casts: List<Cast>?,
+    isLoading: Boolean,
+) {
+    if (casts != null) {
+        if (casts.isEmpty()) {
+            return
+        }
+    }
+    Spacer(modifier = Modifier.height(16.dp))
+    MovieListHeader(
+        title = "Popular Casts",
+        subTitle = "See All",
+        onClick = {}
+    )
+    MovieCastCard(
+        loadingState = isLoading,
+        content = {
+            LazyRow(
+                contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if (casts != null) {
+                    items(casts.size) {
+                        val cast = casts[it]
+                        CastCard(
+                            cast = cast,
+                            onClick = {}
+                        )
+                    }
+                }
+            }
+        }
+    )
+}
+
+@Composable
+fun SimilarMovieList(
+    movies: List<Movie>?,
+    navigator: DestinationsNavigator,
+    isLoading: Boolean,
+) {
+    if (movies != null) {
+        if (movies.isEmpty()) {
+            return
+        }
+    }
+    MovieListHeader(
+        title = "Similar Movies",
+        subTitle = "See All",
+        onClick = {}
+    )
+    MovieListCard(
+        loadingState = isLoading,
+        content = {
+            LazyRow(
+                contentPadding = PaddingValues(top = 16.dp, start = 16.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                if (movies != null) {
+                    items(movies.size) {
+                        val movie = movies[it]
+                        val movieId = movie.id.toString()
+                        MovieCard(
+                            movie = movie,
+                            onClick = {
+                                navigator.navigate(
+                                    MovieDetailScreenDestination(movieId = movieId)
+                                )
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    )
 }

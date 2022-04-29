@@ -1,7 +1,9 @@
 package com.ihsan.moviedatabase.data.mapper
 
+import com.ihsan.moviedatabase.data.remote.dto.MovieCreditDto
 import com.ihsan.moviedatabase.data.remote.dto.MovieDetailDto
 import com.ihsan.moviedatabase.data.remote.dto.MovieListDto
+import com.ihsan.moviedatabase.domain.model.MovieCredit
 import com.ihsan.moviedatabase.domain.model.MovieDetail
 import com.ihsan.moviedatabase.domain.model.MovieList
 
@@ -41,5 +43,13 @@ fun MovieDetailDto.toMovieDetail(): MovieDetail {
         video = video,
         voteAverage = voteAverage,
         voteCount = voteCount
+    )
+}
+
+fun MovieCreditDto.toMovieCredits(): MovieCredit {
+    return MovieCredit(
+        id = id,
+        cast = cast,
+        crew = crew
     )
 }

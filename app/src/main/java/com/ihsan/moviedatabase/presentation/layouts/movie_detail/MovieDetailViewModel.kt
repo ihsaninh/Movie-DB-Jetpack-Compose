@@ -37,4 +37,46 @@ class MovieDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun getMovieCast(id: String) {
+        viewModelScope.launch {
+            repository.getMovieCredits(id).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        state = state.copy(
+                            isLoading = false,
+                            movieCast = result.data?.cast
+                        )
+                    }
+                    is Resource.Error -> Unit
+                    is Resource.Loading -> {
+                        state = state.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun getSimilarMovie(id: String) {
+        viewModelScope.launch {
+            repository.getSimilarMovie(id).collect { result ->
+                when (result) {
+                    is Resource.Success -> {
+                        state = state.copy(
+                            isLoading = false,
+                            similarMovies = result.data?.results
+                        )
+                    }
+                    is Resource.Error -> Unit
+                    is Resource.Loading -> {
+                        state = state.copy(
+                            isLoading = true
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

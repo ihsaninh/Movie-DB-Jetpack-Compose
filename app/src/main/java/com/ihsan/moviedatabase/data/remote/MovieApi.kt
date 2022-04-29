@@ -1,5 +1,6 @@
 package com.ihsan.moviedatabase.data.remote
 
+import com.ihsan.moviedatabase.data.remote.dto.MovieCreditDto
 import com.ihsan.moviedatabase.data.remote.dto.MovieDetailDto
 import com.ihsan.moviedatabase.data.remote.dto.MovieListDto
 import com.ihsan.moviedatabase.util.Constants.API_KEY
@@ -35,5 +36,17 @@ interface MovieApi {
         @Path("movieId") movieId: String,
         @Query("api_key") apiKey: String = API_KEY
     ): MovieDetailDto
+
+    @GET("movie/{movieId}/similar?page=1")
+    suspend fun getSimilarMovie(
+        @Path("movieId") movieId: String,
+        @Query("api_key") apiKey: String = API_KEY,
+    ): MovieListDto
+
+    @GET("movie/{movieId}/credits")
+    suspend fun getMovieCredit(
+        @Path("movieId") movieId: String,
+        @Query("api_key") apiKey: String = API_KEY,
+    ): MovieCreditDto
 
 }

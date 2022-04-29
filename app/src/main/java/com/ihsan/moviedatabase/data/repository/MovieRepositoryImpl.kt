@@ -1,8 +1,10 @@
 package com.ihsan.moviedatabase.data.repository
 
+import com.ihsan.moviedatabase.data.mapper.toMovieCredits
 import com.ihsan.moviedatabase.data.mapper.toMovieDetail
 import com.ihsan.moviedatabase.data.mapper.toMovieList
 import com.ihsan.moviedatabase.data.remote.MovieApi
+import com.ihsan.moviedatabase.domain.model.MovieCredit
 import com.ihsan.moviedatabase.domain.model.MovieDetail
 import com.ihsan.moviedatabase.domain.model.MovieList
 import com.ihsan.moviedatabase.domain.repository.MovieRepository
@@ -110,6 +112,48 @@ class MovieRepositoryImpl @Inject constructor(
                 emit(
                     Resource.Success(
                         data = movieDetail.toMovieDetail()
+                    )
+                )
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
+
+    override suspend fun getSimilarMovie(movieId: String): Flow<Resource<MovieList>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val similarMovie = api.getSimilarMovie(movieId = movieId)
+                emit(
+                    Resource.Success(
+                        data = similarMovie.toMovieList()
+                    )
+                )
+                emit(Resource.Loading(false))
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Resource.Error("Couldn't load data"))
+            }
+        }
+    }
+
+    override suspend fun getMovieCredits(movieId: String): Flow<Resource<MovieCredit>> {
+        return flow {
+            emit(Resource.Loading(true))
+            try {
+                val movieCredits = api.getMovieCredit(movieId = movieId)
+                emit(
+                    Resource.Success(
+                        data = movieCredits.toMovieCredits()
                     )
                 )
                 emit(Resource.Loading(false))
