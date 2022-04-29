@@ -9,24 +9,27 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 import com.ihsan.moviedatabase.R
@@ -78,15 +81,15 @@ fun MovieDetailScreen(
                         pagerState = pagerState
                     )
                 }
-                MovieDetailTitleInfo(
-                    movie = movie,
-                )
+                MovieDetailTitleInfo(movie = movie)
                 Divider(
                     color = Color.White.copy(alpha = 0.12f)
                 )
-                MovieDetailDescriptionInfo(
-                    movie = movie,
+                MovieDetailDescriptionInfo(movie = movie)
+                Divider(
+                    color = Color.White.copy(alpha = 0.12f)
                 )
+                MovieDetailInfoStatus(movie = movie)
                 Divider(
                     color = Color.White.copy(alpha = 0.12f)
                 )
@@ -152,7 +155,7 @@ fun MovieDetailTitleInfo(
             },
             fontSize = 14.sp,
             color = Color.White.copy(alpha = 0.70f),
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }
@@ -164,10 +167,7 @@ fun MovieDetailDescriptionInfo(
     Row(modifier = Modifier.padding(16.dp)) {
         Column(modifier = Modifier.weight(1f)) {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data("${Constants.IMAGE_URL}${movie.posterPath}")
-                    .crossfade(true)
-                    .build(),
+                model = "${Constants.IMAGE_URL}${movie.posterPath}",
                 contentScale = ContentScale.FillWidth,
                 contentDescription = "image",
                 modifier = Modifier
@@ -204,11 +204,112 @@ fun MovieDetailDescriptionInfo(
                 }
             }
             Text(
+                modifier = Modifier.padding(top = 4.dp),
                 text = movie.overview,
-                color = Color.White.copy(alpha = 0.70f),
-                maxLines = 5,
-                overflow = TextOverflow.Ellipsis,
                 fontFamily = FontFamily(Font(R.font.roboto_regular)),
+                maxLines = 5,
+                lineHeight = 20.sp,
+                fontSize = 13.sp,
+                color = Color.White.copy(alpha = 0.70f),
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
+    }
+}
+
+@Composable
+fun MovieDetailInfoStatus(
+    movie: MovieDetail
+) {
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Filled.Star,
+                contentDescription = null,
+                tint = Color(0XFFFFBF00),
+            )
+            Text(
+                buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White,
+                            fontSize = 14.sp
+                        )
+                    ) {
+                        append(movie.voteAverage.toString())
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = Color.White.copy(alpha = 0.7f),
+                            fontSize = 12.sp
+                        )
+                    ) {
+                        append("/10")
+                    }
+                },
+                fontSize = 14.sp,
+                color = Color.White.copy(alpha = 0.70f),
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
+                text = "Rating",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 13.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Filled.AttachMoney,
+                contentDescription = null,
+                tint = Color.Green,
+            )
+            Text(
+                text = "USD ${Helper.formatCompactCurrency(movie.revenue.toFloat())}",
+                color = Color.White,
+                fontSize = 13.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
+                text = "Revenue",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 13.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
+        Column(
+            modifier = Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                Icons.Filled.Movie,
+                contentDescription = null,
+                tint = Color.Red,
+            )
+            Text(
+                text = movie.status,
+                color = Color.White,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+            Text(
+                text = "Status",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 13.sp,
+                modifier = Modifier.padding(top = 4.dp),
             )
         }
     }
