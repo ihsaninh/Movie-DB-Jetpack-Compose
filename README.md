@@ -1,5 +1,3 @@
-Sure, here is the README in Markdown format:
-
 # Movie Database App
 
 ## Overview
@@ -26,7 +24,7 @@ Movie Database App is a mobile application built for Android using Jetpack Compo
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/moviedatabaseapp.git
+   git clone https://github.com/ihsaninh/Movie-DB-Jetpack-Compose.git
    ```
 2. Open the project in Android Studio.
 3. Sync the project with Gradle files.
