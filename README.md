@@ -20,6 +20,15 @@ Movie Database App is a mobile application built for Android using Jetpack Compo
 - **Flow**: Handle asynchronous streams of data.
 - **Retrofit**: A type-safe HTTP client for Android and Java to make network requests.
 
+## Screenshots
+
+### Home Screen
+![Home Screen](screenshot/Screenshot_1.png)
+
+### Movie Details
+![Movie Details](screenshot/Screenshot_2.png)
+
+
 ## Installation
 
 1. Clone the repository:
