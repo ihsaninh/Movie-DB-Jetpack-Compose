@@ -43,8 +43,8 @@ Movie Database App is a mobile application built for Android using Jetpack Compo
 
 For any inquiries or feedback, please contact:
 
-- Your Name
-- [your.email@example.com](mailto:ihsan.inh@gmail.com)
+- Ihsan Nurul Habib
+- [ihsan.inh@gmail.com](mailto:ihsan.inh@gmail.com)
 - [GitHub](https://github.com/ihsaninh)
 
 ---
