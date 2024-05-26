@@ -22,11 +22,16 @@ Movie Database App is a mobile application built for Android using Jetpack Compo
 
 ## Screenshots
 
-### Home Screen
-![Home Screen](screenshot/Screenshot_1.png)
-
-### Movie Details
-![Movie Details](screenshot/Screenshot_2.png)
+<div style="display: flex; flex-direction: row; justify-content: space-around;">
+    <div>
+        <h3>Home Screen</h3>
+        <img src="screenshot/Screenshot_1.png" alt="Home Screen" style="width: 300px;">
+    </div>
+    <div>
+        <h3>Movie Details</h3>
+        <img src="screenshot/Screenshot_2.png" alt="Movie Details" style="width: 300px;">
+    </div>
+</div>
 
 
 ## Installation
